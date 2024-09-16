@@ -7,7 +7,6 @@ from ReturnCodes import *
 
 # - Import Required Libraries
 from celery import Celery
-import logging
 import time
 
 # - Setup Log File Full Path
@@ -27,13 +26,6 @@ celery_app = Celery(
     'tasks',
     broker = CELERY_BROKER_URL,
     backend = CELERY_BACKEND_URL
-)
-
-# - Configure Celery Logging
-logging.basicConfig(
-    filename = CELERY_LOG_FILE, 
-    level = logging.INFO,
-    format = '%(asctime)s - %(levelname)s - %(message)s'
 )
 
 # - Show Init Log
@@ -64,7 +56,7 @@ def createSubscription(
     # - Check Subscription Creation Status
     if status != RET.PAYMENT.STRIPE.SUBSCRIPTION.CREATE.SUCCESS:
         # print(CELERY_HANDLER, FAILED, "Creating Payment for Client {}{}{} : {}{}{}".format(D_CYAN, client_id, RESET, ERR, status_message, RESET))
-        logging.info("[ERROR] Creating Payment for Client {} : {}".format(client_id, status_message))
+        print("[ERROR] Creating Payment for Client {} : {}".format(client_id, status_message))
 
 @celery_app.task
 def print_message():
@@ -155,5 +147,5 @@ def print_message():
     # else:
     #     lawfirm = account.lawfirm
     # Log a message
-    logging.error("this is error test logging")
+    # logging.error("this is error test logging")
     print(GREEN, "Celery Task Executed", RESET)
