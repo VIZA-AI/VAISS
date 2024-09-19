@@ -33,7 +33,7 @@ print(CELERY_HANDLER, "Celery Broker URL : {}{}{}".format(GREEN, celery_app.conf
 print(CELERY_HANDLER, "Celery Backend URL : {}{}{}".format(GREEN, celery_app.conf.result_backend, RESET))
 
 # - Celery Task to Create Subscription
-@celery_app.task
+@celery_app.task(bind = True, max_retries = 0, autoretry_for = ())
 def createSubscription(
     user_id,
     account_id,
